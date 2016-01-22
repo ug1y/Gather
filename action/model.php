@@ -1,6 +1,6 @@
 <?php
 require 'medoo.php';
-//require 'config.php';
+require '../config.php';
 /**
 * 数据库操作类
 */
@@ -57,27 +57,10 @@ class Model
 	}
 }
 
-// $m = new Model();
+$m = new Model();
 
-// $m->showTble('activity');
+$test = $m->getAct(true);
 
-// $ans = $db->insert('activity',[
-// 	'title' => 'test2',
-// 	'description' => 'testforgather2',
-// 	'createtime' => date('Y-m-d'),
-// 	'deadline' => date('Y-m-d',mktime(0,0,0,1,28,2016)),
-// 	'status' => 0,
-// 	]);
-
-
-//var_dump($ans);
-
-// $data = $db->select('activity','*');
-
-// foreach ($data as $s) {
-// 	var_dump($s);
-// }
-
-
+var_dump($test);
 
 ?>
