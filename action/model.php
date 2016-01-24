@@ -1,6 +1,6 @@
 <?php
 require 'medoo.php';
-require '../config.php';
+// require '../config.php';
 /**
 * 数据库操作类
 */
@@ -31,6 +31,16 @@ class Model
 		return $flag;
 	}
 
+	/** 获取活动表结构 */
+	public function act()
+	{
+		$tmp = $this->db->query('DESC activity;')->fetchAll();
+		foreach ($tmp as $key => $value) {
+			$data[$key] = $value['Field'];
+		}
+		array_splice($data,0,1);
+		return $data;
+	}
 	/** 获取活动信息 */
 	public function getActs($status=null)
 	{
@@ -71,6 +81,16 @@ class Model
 	}
 
 
+	/** 获取属性表结构 */
+	public function pro()
+	{
+		$tmp = $this->db->query('DESC property;')->fetchAll();
+		foreach ($tmp as $key => $value) {
+			$data[$key] = $value['Field'];
+		}
+		array_splice($data,0,1);
+		return $data;
+	}
 	/** 获取某个活动的表单属性 */
 	public function getPros($actID)
 	{
@@ -197,7 +217,7 @@ class Model
 // 'text1' => 'assdd',
 // 'text2' => 'ccfffc',
 // ];
-// $test = $m->getPro(6);
+// $test = $m->act();
 
 // var_dump($test);
 
