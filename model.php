@@ -108,9 +108,8 @@ class Model
 		}
 	}
 	/** 添加一个表单属性 */
-	public function createPro($actID,$data)
+	public function createPro($data)
 	{
-		$data['actID'] = $actID;
 		$last_id = $this->db->insert('property',$data);
 		return $last_id;
 	}

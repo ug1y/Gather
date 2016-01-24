@@ -6,6 +6,8 @@ session_start();
 
 require 'flight/Flight.php';
 
+require 'model.php';
+
 require 'router.php';
 
 require 'config.php';

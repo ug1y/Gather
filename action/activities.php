@@ -2,7 +2,7 @@
 /*
 * 管理员对活动的CRUD
 */
-require 'model.php';
+//require 'model.php';
 
 /** 查看当前活动 actID是请求标识 */
 function getActs()
@@ -31,6 +31,26 @@ function editAct()
 	}
 }
 
+/** 删除一个活动 */
+function deleteAct()
+{
+	$m = new Model();
+	$query = Flight::request()->query;
+	$actID = $query['actID'];
+	if (is_null($actID)) {
+		Flight::redirect('/admin/getacts');
+	}else {
+		$m->deleteAct($actID);
+		Flight::redirect('/admin/getacts');
+	}
+}
+
+/** 添加一个活动 */
+function addAct()
+{
+	Flight::render('Acts-add.php');
+}
+
 /** 更新一个活动 */
 function updateAct()
 {
@@ -46,7 +66,11 @@ function updateAct()
 	}
 	unset($data['createtime']);
 	$m->updateAct($post['actID'],$data);
-	Flight::redirect('/admin/editact?actID='.$post['actID']);
+	echo "<script>
+	alert('success');
+	window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
+	</script>";
+	//Flight::redirect('/admin/editact?actID='.$post['actID']);
 }
 
 /** 创建一个活动 */
@@ -64,10 +88,17 @@ function createAct()
 	}
 	$data['createtime'] = date('Y-m-d');
 	if ($data['title']=='' || $data['status']=='') {
-		echo "nope!";
+		echo "nope!!!";
 	}else {
 		$m->createAct($data);
+		echo "<script>
+		alert('success');
+		window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
+		</script>";
 	}
+	//Flight::redirect('/admin/getacts');
 }
+
+
 
 ?>
