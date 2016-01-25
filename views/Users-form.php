@@ -4,10 +4,10 @@
 	<meta charset="utf-8"></meta>
 </head>
 <body>
-	<form action="" method="post">
+	<form action=<?php echo dirname($_SERVER['PHP_SELF'])."/users/addform"?> method="post">
 		<?php
 		echo "<input type='hidden' name='actID' value=".$actID." />";
-		foreach ($data as $key => $value) {
+		foreach ($pros as $key => $value) {
 			echo $value['label']."<input type=".$value['type']." name=".$value['name']." />";
 			if ($value['isneed']==1) {
 				echo "*<br>";

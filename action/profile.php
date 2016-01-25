@@ -3,18 +3,18 @@
 
 function login()
 {
-	$query = Flight::request()->query;
-	$user = $query['user'];
-	$pass = $query['pass'];
-	if (isset($user) && 
-		isset($pass) && 
+	$post = Flight::request()->data;
+	$user = $post['user'];
+	$pass = $post['pass'];
+	if (!is_null($user) && 
+		!is_null($pass) && 
 		$user==constant('GA_USER') && 
 		$pass==constant('GA_PASS')) {
 		$_SESSION['user'] = constant('GA_USER');
-		echo Flight::json(['sucess']);
+		Flight::redirect('/admin/getacts');
 	}else {
 		unset($_SESSION['user']);
-		echo Flight::json(['error']);
+		Flight::render('Sign.php');
 	}
 }
 
@@ -23,6 +23,20 @@ function logout()
 	unset($_SESSION['user']);
 	if (!isset($_SESSION['user'])) {
 		echo Flight::json(['sucess']);
+	}
+}
+
+function sign()
+{
+	Flight::render('Sign.php');
+}
+
+function check()
+{
+	if (Model::islogin()) {
+		return true;
+	}else {
+		echo "please login !";
 	}
 	
 }

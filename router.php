@@ -5,8 +5,12 @@ Flight::route('/','hello');
 
 //用户登录退出
 require 'action/profile.php';
+//功能型
 Flight::route('/login','login');
 Flight::route('/logout','logout');
+Flight::route('/admin/*','check');
+//页面型
+Flight::route('/sign','sign');
 
 require 'action/activities.php';
 //页面型
@@ -32,6 +36,8 @@ require 'action/users.php';
 //页面型
 Flight::route('/users/getform','getForm');
 Flight::route('/users/getlist','getList');
-
 //功能型
+Flight::route('/users/addform','addForm');
+Flight::route('/admin/delrec','delRec');
+Flight::route('/admin/showrec','showRec');
 ?>
