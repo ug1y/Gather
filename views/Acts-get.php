@@ -4,8 +4,8 @@
 	<meta charset="utf-8"></meta>
 </head>
 <body>
-	<a href=<?php echo dirname($_SERVER['PHP_SELF'])."/logout"?>>退出登录</a>
-	<a href=<?php echo dirname($_SERVER['PHP_SELF'])."/admin/addact"?>>新建活动</a>
+	<a href="../logout">退出登录</a>
+	<a href="./addact">新建活动</a>
 	<table border="1">
 	<tr>
 		<?php
@@ -26,10 +26,10 @@
 		echo "<td>".$value['deadline']."</td>";
 		echo "<td>".$value['status']."</td>";
 		echo "<td>
-		<a href='".dirname($_SERVER['PHP_SELF'])."/admin/showrec?actID=".$value['actID']."'>查看结果</a>
-		<a href='".dirname($_SERVER['PHP_SELF'])."/admin/editact?actID=".$value['actID']."'>编辑</a>
-		<a href='".dirname($_SERVER['PHP_SELF'])."/admin/getpros?actID=".$value['actID']."'>输入项</a>
-		<a href='".dirname($_SERVER['PHP_SELF'])."/admin/deleteact?actID=".$value['actID']."'>删除</a>
+		<a href='./showrec?actID=".$value['actID']."'>查看结果</a>
+		<a href='./editact?actID=".$value['actID']."'>编辑</a>
+		<a href='./getpros?actID=".$value['actID']."'>输入项</a>
+		<a href='./deleteact?actID=".$value['actID']."'>删除</a>
 		</td>";
 		echo "</tr>";
 	}

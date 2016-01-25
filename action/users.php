@@ -12,7 +12,8 @@ function getForm()
 		Flight::redirect('/users/getlist');
 	}else {
 		$pros = $m->getPros($actID);
-		Flight::render('Users-form.php',['pros' => $pros,'actID' => $actID]);
+		$act = $m->getAct($actID);
+		Flight::render('Users-form.php',['pros' => $pros,'act' => $act]);
 	}
 }
 

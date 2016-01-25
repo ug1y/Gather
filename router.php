@@ -2,6 +2,7 @@
 
 require 'action/welcome.php';
 Flight::route('/','hello');
+Flight::route('/about','about');
 
 //用户登录退出
 require 'action/profile.php';
