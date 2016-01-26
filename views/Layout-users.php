@@ -22,6 +22,13 @@
         		</button>
         		<a class="navbar-brand" href="#">Gather System</a>
         	</div>
+            <?php
+            if (Model::islogin()) {
+                echo '<ul class="nav navbar-nav navbar-left">
+                <li><a href='.dirname($_SERVER['PHP_SELF']).'/admin/getacts'.'><b>admin&gt;&gt;</b></a></li>
+                </ul>';
+            }
+            ?>
         	<!-- Collect the nav links, forms, and other content for toggling -->
         	<div class="collapse navbar-collapse" id="navbar-collapse-1">
         		<ul class="nav navbar-nav navbar-right">

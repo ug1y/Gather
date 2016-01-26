@@ -31,6 +31,7 @@ function addForm()
 	$post = Flight::request()->data;
 	$actID = $post['actID'];
 	$pros = $m->getPros($actID);
+	$data = [];
 	foreach ($pros as $key => $value) {
 		if (is_null($post[$value['label']])) {
 			$data[$value['label']] = '';
@@ -39,17 +40,10 @@ function addForm()
 		}
 	}
 	$m->createEnt($actID,$data);
-	if (Model::islogin()) {
-		echo "<script>
-		alert('success');
-		window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
-		</script>";
-	}else {
-		echo "<script>
-		alert('success');
-		window.location.href='".dirname($_SERVER['PHP_SELF'])."/users/getlist';
-		</script>";
-	}
+	echo "<script>
+	alert('success');
+	window.location.href='".dirname($_SERVER['PHP_SELF'])."/users/getlist';
+	</script>";
 }
 
 function delRec()
@@ -76,8 +70,6 @@ function showRec()
 	}else {
 		$pros = $m->getPros($actID);
 		$ents = $m->getEnts($actID);
-		// var_dump($pros);
-		// var_dump($ents);
 		Flight::render('Ents.php',['actID' => $actID,'pros' => $pros,'ents' => $ents]);
 	}
 }

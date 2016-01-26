@@ -1,7 +1,7 @@
 <?php
 $wel = 'active';
 $h1 = 'Hello,Everybody!';
-$p = 'welcome to my projects';
+$p = 'welcome to my projects,admin user please <a href='.dirname($_SERVER['PHP_SELF']).'/sign'.'>login</a>';
 
 $detail = '
 <div class="jumbotron">

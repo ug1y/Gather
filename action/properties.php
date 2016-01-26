@@ -13,9 +13,9 @@ function getPros()
 	if (is_null($actID)){
 		Flight::redirect('/admin/getacts');
 	}else {
-		$data = $m->getPros($actID);
+		$pros = $m->getPros($actID);
 		$field = $m->pro();
-		Flight::render('Pros-get.php',['data' => $data,'field' => $field,'actID' => $actID]);
+		Flight::render('Pros-get.php',['pros' => $pros,'field' => $field,'actID' => $actID]);
 	}
 }
 
@@ -28,11 +28,11 @@ function editPro()
 	if (is_null($proID)) {
 		Flight::redirect('/admin/getacts');
 	}else {
-		$data = $m->getPro($proID);
-		if (empty($data)) {
+		$pro = $m->getPro($proID);
+		if (empty($pro)) {
 			echo "nope!";
 		}else {
-			Flight::render('Pros-edit.php',['data' => $data]);
+			Flight::render('Pros-edit.php',['pro' => $pro]);
 		}
 	}
 }
@@ -83,11 +83,11 @@ function updatePro()
 		}
 	}
 	$m->updatePro($post['proID'],$data);
-	echo "<script>
-	alert('success');
-	window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getpros?actID=".$post['actID']."';
-	</script>";
-	//Flight::redirect('/admin/editact?actID='.$post['actID']);
+	// echo "<script>
+	// alert('success');
+	// window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getpros?actID=".$post['actID']."';
+	// </script>";
+	Flight::redirect('/admin/getpros?actID='.$post['actID']);
 }
 
 /** 添加一个输入项 */
@@ -107,12 +107,12 @@ function createPro()
 		echo "nope!!!";
 	}else {
 		$m->createPro($data);
-		echo "<script>
-		alert('success');
-		window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getpros?actID=".$data['actID']."';
-		</script>";
+		// echo "<script>
+		// alert('success');
+		// window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getpros?actID=".$data['actID']."';
+		// </script>";
+		Flight::redirect('/admin/getpros?actID='.$data['actID']);
 	}
-	//Flight::redirect('/admin/getacts');
 }
 
 ?>

@@ -8,9 +8,9 @@
 function getActs()
 {
 	$m = new Model();
-	$data = $m->getActs();
+	$acts = $m->getActs();
 	$field = $m->act();
-	Flight::render('Acts-get.php',['data' => $data,'field' => $field]);
+	Flight::render('Acts-get.php',['acts' => $acts,'field' => $field]);
 }
 
 /** 编辑一个活动 */
@@ -22,11 +22,11 @@ function editAct()
 	if (is_null($actID)) {
 		Flight::redirect('/admin/getacts');
 	}else {
-		$data = $m->getAct($actID);
-		if (empty($data)) {
+		$act = $m->getAct($actID);
+		if (empty($act)) {
 			echo "nope!";
 		}else {
-			Flight::render('Acts-edit.php',['data' => $data]);
+			Flight::render('Acts-edit.php',['act' => $act]);
 		}
 	}
 }
@@ -66,11 +66,11 @@ function updateAct()
 	}
 	unset($data['createtime']);
 	$m->updateAct($post['actID'],$data);
-	echo "<script>
-	alert('success');
-	window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
-	</script>";
-	//Flight::redirect('/admin/editact?actID='.$post['actID']);
+	// echo "<script>
+	// alert('success');
+	// window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
+	// </script>";
+	Flight::redirect('/admin/getacts');
 }
 
 /** 创建一个活动 */
@@ -91,12 +91,13 @@ function createAct()
 		echo "nope!!!";
 	}else {
 		$m->createAct($data);
-		echo "<script>
-		alert('success');
-		window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
-		</script>";
+		// echo "<script>
+		// alert('success');
+		// window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
+		// </script>";
+		Flight::redirect('/admin/getacts');
 	}
-	//Flight::redirect('/admin/getacts');
+	
 }
 
 

@@ -14,7 +14,7 @@ function login()
 		Flight::redirect('/admin/getacts');
 	}else {
 		unset($_SESSION['user']);
-		Flight::render('Sign.php');
+		Flight::redirect('/sign');
 	}
 }
 
@@ -36,7 +36,7 @@ function check()
 	if (Model::islogin()) {
 		return true;
 	}else {
-		echo "please login !";
+		Flight::redirect('/sign');
 	}
 	
 }
