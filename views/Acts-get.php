@@ -1,8 +1,13 @@
 <?php
 $thead = '';
-foreach ($field as $key => $value) {
-	$thead = $thead."<th>".$value."</th>";
-}
+// foreach ($field as $key => $value) {
+// 	$thead = $thead."<th>".$value."</th>";
+// }
+$thead = $thead."<th>活动标题</th>";
+$thead = $thead."<th>活动描述</th>";
+$thead = $thead."<th>创建时间</th>";
+$thead = $thead."<th>截止时间</th>";
+$thead = $thead."<th>当前状态</th>";
 
 $tbody = '';
 foreach ($acts as $key => $value) {
@@ -12,7 +17,7 @@ foreach ($acts as $key => $value) {
 	$tbody = $tbody."<td>".$value['description']."</td>";
 	$tbody = $tbody."<td>".$value['createtime']."</td>";
 	$tbody = $tbody."<td>".$value['deadline']."</td>";
-	$tbody = $tbody."<td>".$value['status']."</td>";
+	$tbody = $tbody."<td>".($value['status']==0?'未发布':'已发布')."</td>";
 	$tbody = $tbody."<td>
 	<a href='".dirname($_SERVER['PHP_SELF'])."/admin/showrec?actID=".$value['actID']."'>查看结果</a>
 	<a href='".dirname($_SERVER['PHP_SELF'])."/admin/editact?actID=".$value['actID']."'>编辑</a>

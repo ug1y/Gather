@@ -6,17 +6,23 @@ foreach ($pros as $key => $value) {
 }
 
 $tbody = '';
-foreach ($ents as $ent) {
-	foreach ($ent as $key => $value) {
+// var_dump($ents);
+if (!empty($ents)) {
+	$cols = count($ents);
+	$rows = count($ents[0]);
+	for ($i=0; $i < $rows ; $i++) { 
 		$tbody = $tbody."<tr>";
-		$tbody = $tbody."<td>".($key+1)."</td>";
-		$tbody = $tbody."<td>".$value['content']."</td>";
+		$tbody = $tbody."<td>".($i+1)."</td>";
+		for ($j=0; $j < $cols; $j++) { 
+			$tbody = $tbody."<td>".$ents[$j][$i]['content']."</td>";
+		}
 		$tbody = $tbody."<td>
-		<a href='".dirname($_SERVER['PHP_SELF'])."/admin/delrec?actID=".$actID."&index=".$value['index']."'>删除</a>
+		<a href='".dirname($_SERVER['PHP_SELF'])."/admin/delrec?actID=".$actID."&index=".$ents[0][$i]['index']."'>删除</a>
 		</td>";
 		$tbody = $tbody."</tr>";
 	}
 }
+
 
 $nav = '
 <ol class="breadcrumb">

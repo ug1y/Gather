@@ -1,45 +1,52 @@
 <?php
 $elem = '
 <div class="form-group">
-<label for="name" class="col-sm-2 control-label">name</label>
+<label for="name" class="col-sm-2 control-label"><span style="color:red">*</span>属性名</label>
 <div class="col-sm-8">
-<input type="text" class="form-control" id="name" name="name" value="'.$pro['name'].'">
+<input type="text" class="form-control" id="name" name="name" placeholder="必填，显示给用户的内容" value="'.$pro['name'].'">
 </div>
 </div>
 <div class="form-group">
-<label for="label" class="col-sm-2 control-label">label</label>
+<label for="label" class="col-sm-2 control-label"><span style="color:red">*</span>标签名</label>
 <div class="col-sm-8">
-<input type="text" class="form-control" id="label" name="label" value="'.$pro['label'].'">
+<input type="text" class="form-control" id="label" name="label" placeholder="必填，表单的html标签" value="'.$pro['label'].'">
 </div>
 </div>
 <div class="form-group">
-<label for="type" class="col-sm-2 control-label">type</label>
+<label for="type" class="col-sm-2 control-label"><span style="color:red">*</span>类型</label>
 <div class="col-sm-8">
-<input type="text" class="form-control" id="type" name="type" value="'.$pro['type'].'">
+<select class="form-control" id="type" name="type" placeholder="">
+<option value="text" '.($pro['type']=='text'?'selected':'').'>text</option>
+</select>
 </div>
 </div>
 <div class="form-group">
-<label for="description" class="col-sm-2 control-label">description</label>
+<label for="description" class="col-sm-2 control-label">描述</label>
 <div class="col-sm-8">
-<textarea class="form-control" rows="3" id="description" name="description" placeholder="">'.$pro['description'].'</textarea>
+<textarea class="form-control" rows="3" id="description" name="description" placeholder="可选">'.$pro['description'].'</textarea>
 </div>
 </div>
 <div class="form-group">
-<label for="isneed" class="col-sm-2 control-label">isneed</label>
+<label for="isneed" class="col-sm-2 control-label">必填否</label>
 <div class="col-sm-8">
-<input type="text" class="form-control" id="isneed" name="isneed" value="'.$pro['isneed'].'">
+<select class="form-control" id="isneed" name="isneed" placeholder="">
+<option value="0" '.($pro['isneed']=='0'?'selected':'').'>否</option>
+<option value="1" '.($pro['isneed']=='1'?'selected':'').'>是</option>
+</select>
 </div>
 </div>
+<!--
 <div class="form-group">
-<label for="constraint" class="col-sm-2 control-label">constraint</label>
+<label for="constraint" class="col-sm-2 control-label">输入约束</label>
 <div class="col-sm-8">
-<input type="text" class="form-control" id="constraint" name="constraint" value="'.$pro['constraint'].'">
+<input type="text" class="form-control" id="constraint" name="constraint" placeholder="文本过滤" value="'.$pro['constraint'].'">
 </div>
 </div>
+-->
 <div class="form-group">
-<label for="order" class="col-sm-2 control-label">order</label>
+<label for="order" class="col-sm-2 control-label">排序</label>
 <div class="col-sm-8">
-<input type="number" class="form-control" id="order" name="order" value="'.$pro['order'].'">
+<input type="number" class="form-control" id="order" name="order" placeholder="从小到大排列" value="'.$pro['order'].'">
 </div>
 </div>
 ';
@@ -68,7 +75,9 @@ $detail = '
 '.$elem.'
 <div class="form-group">
 <div class="col-sm-offset-2 col-sm-8">
-<button type="submit" class="btn btn-default">Submit</button>
+<button type="submit" class="btn btn-primary">更新</button>
+&nbsp;
+<a href='.dirname($_SERVER['PHP_SELF']).'/admin/getpros?actID='.$pro['actID'].' ?>返回</a>
 </div>
 </div>
 </form>

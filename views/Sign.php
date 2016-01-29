@@ -16,7 +16,7 @@
     		<div class="col-xs-10 col-sm-8 col-md-6 col-md-offset-3 col-sm-offset-2 col-xs-offset-1">
     			<div style="margin-top:100px" class="panel panel-default">
     				<div class="panel-heading">
-    					<h3 class="panel-title">登录</h3>
+    					<h3 class="panel-title">管理员登录</h3>
     				</div>
     				<div class="panel-body">
     					<form class="col-sm-offset-1 col-sm-10" action=<?php echo dirname($_SERVER['PHP_SELF'])."/login"?> method="post">
@@ -27,11 +27,11 @@
 							<br>
 							<div class="input-group">
 								<span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-								<input name="pass" type="text" class="form-control" placeholder="password" aria-describedby="basic-addon2">
+								<input name="pass" type="password" class="form-control" placeholder="password" aria-describedby="basic-addon2">
 							</div>
 							<br>
 							<div class="col-xs-6 col-xs-offset-3 text-center">
-								<input class="btn btn-primary" type="submit" value="login">
+								<input class="btn btn-primary" type="submit" value="登录">
 								&nbsp;
 								<a href=<?php echo dirname($_SERVER['PHP_SELF'])."/"?> >返回</a>
 							</div>

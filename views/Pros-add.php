@@ -1,45 +1,52 @@
 <?php
 $elem = '
 <div class="form-group">
-<label for="name" class="col-sm-2 control-label">name</label>
+<label for="name" class="col-sm-2 control-label"><span style="color:red">*</span>属性名</label>
 <div class="col-sm-8">
-<input type="text" class="form-control" id="name" name="name" placeholder="">
+<input type="text" class="form-control" id="name" name="name" placeholder="必填，显示给用户的内容">
 </div>
 </div>
 <div class="form-group">
-<label for="label" class="col-sm-2 control-label">label</label>
+<label for="label" class="col-sm-2 control-label"><span style="color:red">*</span>标签名</label>
 <div class="col-sm-8">
-<input type="text" class="form-control" id="label" name="label" placeholder="">
+<input type="text" class="form-control" id="label" name="label" placeholder="必填，表单的html标签">
 </div>
 </div>
 <div class="form-group">
-<label for="type" class="col-sm-2 control-label">type</label>
+<label for="type" class="col-sm-2 control-label">类型</label>
 <div class="col-sm-8">
-<input type="text" class="form-control" id="type" name="type" placeholder="">
+<select class="form-control" id="type" name="type" placeholder="">
+<option value="text" selected>text</option>
+</select>
 </div>
 </div>
 <div class="form-group">
-<label for="description" class="col-sm-2 control-label">description</label>
+<label for="description" class="col-sm-2 control-label">描述</label>
 <div class="col-sm-8">
-<textarea class="form-control" rows="3" id="description" name="description" placeholder=""></textarea>
+<textarea class="form-control" rows="3" id="description" name="description" placeholder="可选"></textarea>
 </div>
 </div>
 <div class="form-group">
-<label for="isneed" class="col-sm-2 control-label">isneed</label>
+<label for="isneed" class="col-sm-2 control-label">必填否</label>
 <div class="col-sm-8">
-<input type="text" class="form-control" id="isneed" name="isneed" placeholder="">
+<select class="form-control" id="isneed" name="isneed" placeholder="">
+<option value="0" selected>否</option>
+<option value="1" >是</option>
+</select>
 </div>
 </div>
+<!--
 <div class="form-group">
-<label for="constraint" class="col-sm-2 control-label">constraint</label>
+<label for="constraint" class="col-sm-2 control-label">输入约束</label>
 <div class="col-sm-8">
-<input type="text" class="form-control" id="constraint" name="constraint" placeholder="">
+<input type="text" class="form-control" id="constraint" name="constraint" placeholder="文本过滤">
 </div>
 </div>
+-->
 <div class="form-group">
-<label for="order" class="col-sm-2 control-label">order</label>
+<label for="order" class="col-sm-2 control-label">排序</label>
 <div class="col-sm-8">
-<input type="number" class="form-control" id="order" name="order" placeholder="">
+<input type="number" class="form-control" id="order" name="order" placeholder="从小到大排列">
 </div>
 </div>
 ';
@@ -67,7 +74,9 @@ $detail = '
 '.$elem.'
 <div class="form-group">
 <div class="col-sm-offset-2 col-sm-8">
-<button type="submit" class="btn btn-default">Submit</button>
+<button type="submit" class="btn btn-primary">添加</button>
+&nbsp;
+<a href='.dirname($_SERVER['PHP_SELF']).'/admin/getpros?actID='.$actID.' ?>返回</a>
 </div>
 </div>
 </form>

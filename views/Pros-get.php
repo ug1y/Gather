@@ -1,10 +1,16 @@
 <?php
 
 $thead = '';
-unset($field[0]);
-foreach ($field as $key => $value) {
-	$thead = $thead."<th>".$value."</th>";
-}
+// unset($field[0]);
+// foreach ($field as $key => $value) {
+// 	$thead = $thead."<th>".$value."</th>";
+// }
+$thead = $thead."<th>属性名</th>";
+$thead = $thead."<th>标签名</th>";
+$thead = $thead."<th>类型</th>";
+$thead = $thead."<th>描述</th>";
+$thead = $thead."<th>必填否</th>";
+
 
 $tbody = '';
 foreach ($pros as $key => $value) {
@@ -14,9 +20,9 @@ foreach ($pros as $key => $value) {
 	$tbody = $tbody."<td>".$value['label']."</td>";
 	$tbody = $tbody."<td>".$value['type']."</td>";
 	$tbody = $tbody."<td>".$value['description']."</td>";
-	$tbody = $tbody."<td>".$value['isneed']."</td>";
-	$tbody = $tbody."<td>".$value['constraint']."</td>";
-	$tbody = $tbody."<td>".$value['order']."</td>";
+	$tbody = $tbody."<td>".($value['isneed']==0?'否':'是')."</td>";
+//	$tbody = $tbody."<td>".$value['constraint']."</td>";
+//	$tbody = $tbody."<td>".$value['order']."</td>";
 	$tbody = $tbody."<td>
 	<a href='".dirname($_SERVER['PHP_SELF'])."/admin/editpro?proID=".$value['proID']."'>编辑</a>
 	<a href='".dirname($_SERVER['PHP_SELF'])."/admin/deletepro?proID=".$value['proID']."'>删除</a>

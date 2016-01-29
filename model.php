@@ -31,6 +31,14 @@ class Model
 		return $flag;
 	}
 
+	public static function filter_data($data)
+	{
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
+
 	/** 获取活动表结构 */
 	public function act()
 	{
@@ -94,7 +102,7 @@ class Model
 	/** 获取某个活动的表单属性 */
 	public function getPros($actID)
 	{
-		$data = $this->db->select('property','*',['actID' => $actID]);
+		$data = $this->db->select('property','*',['actID' => $actID,'ORDER' => 'order']);
 		return $data;
 	}
 	/** 获取某个属性的信息 */
@@ -158,7 +166,6 @@ class Model
 		if (empty($tmp)) {
 			$index = 1;
 		}else {
-			var_dump($tmp);
 			$index = $tmp[0]['index']+1;
 		}
 		foreach ($proID as $key => $value) {

@@ -7,13 +7,27 @@ function getForm()
 {
 	$m = new Model();
 	$query = Flight::request()->query;
-	$actID = $query['actID'];
-	if (is_null($actID)) {
+	$actID = Model::filter_data($query['actID']);
+	if (!isset($actID) || $actID=='') {
 		Flight::redirect('/users/getlist');
 	}else {
 		$pros = $m->getPros($actID);
 		$act = $m->getAct($actID);
-		Flight::render('Users-form.php',['pros' => $pros,'act' => $act]);
+		if (empty($act)) {
+			echo "<script>
+			alert('please check the activity !');
+			window.location.href='".dirname($_SERVER['PHP_SELF'])."/users/getlist';
+			</script>";
+		}
+		elseif ($act['status']==0) {
+			echo "<script>
+			alert('forbidden !');
+			window.location.href='".dirname($_SERVER['PHP_SELF'])."/users/getlist';
+			</script>";
+		}
+		else {
+			Flight::render('Users-form.php',['pros' => $pros,'act' => $act]);
+		}
 	}
 }
 
@@ -29,31 +43,57 @@ function addForm()
 {
 	$m = new Model();
 	$post = Flight::request()->data;
-	$actID = $post['actID'];
-	$pros = $m->getPros($actID);
-	$data = [];
-	foreach ($pros as $key => $value) {
-		if (is_null($post[$value['label']])) {
-			$data[$value['label']] = '';
+	if (!isset($post['actID']) || $post['actID']=='') {
+		echo "<script>
+		alert('unexpected error !');
+		window.location.href='".dirname($_SERVER['PHP_SELF'])."/users/getlist';
+		</script>";
+	}else {
+		$isneed = true;
+		$actID = Model::filter_data($post['actID']);
+		$pros = $m->getPros($actID);
+		$data = [];
+		foreach ($pros as $key => $value) {
+			if (!isset($post[$value['label']]) || $post[$value['label']]=='') {
+				$data[$value['label']] = '';
+				if ($value['isneed']==1) {
+					$isneed = false;
+				}
+			}else {
+				$data[$value['label']] = Model::filter_data($post[$value['label']]);
+			}
+		}
+		if (empty($data)) {
+			echo "<script>
+			alert('empty property !');
+			window.location.href='".dirname($_SERVER['PHP_SELF'])."/users/getform?actID=".$actID."';
+			</script>";
+		}elseif ($isneed) {
+			$m->createEnt($actID,$data);
+			echo "<script>
+			alert('submit success !');
+			window.location.href='".dirname($_SERVER['PHP_SELF'])."/users/getlist';
+			</script>";
 		}else {
-			$data[$value['label']] = $post[$value['label']];
+			echo "<script>
+			alert('something you forget it !');
+			window.location.href='".dirname($_SERVER['PHP_SELF'])."/users/getform?actID=".$actID."';
+			</script>";
 		}
 	}
-	$m->createEnt($actID,$data);
-	echo "<script>
-	alert('success');
-	window.location.href='".dirname($_SERVER['PHP_SELF'])."/users/getlist';
-	</script>";
 }
 
 function delRec()
 {
 	$m = new Model();
 	$query = Flight::request()->query;
-	$actID = $query['actID'];
-	$index = $query['index'];
-	if (is_null($index)||is_null($actID)) {
-		echo "nonono";
+	$actID = Model::filter_data($query['actID']);
+	$index = Model::filter_data($query['index']);
+	if (!isset($index) || !isset($actID) || $index=='' || $actID=='') {
+		echo "<script>
+		alert('unexpected error !');
+		window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
+		</script>";
 	}else {
 		$m->deleteEnt($actID,$index);
 		Flight::redirect('/admin/showrec?actID='.$actID);
@@ -64,8 +104,8 @@ function showRec()
 {
 	$m = new Model();
 	$query = Flight::request()->query;
-	$actID = $query['actID'];
-	if (is_null($actID)) {
+	$actID = Model::filter_data($query['actID']);
+	if (!isset($actID) || $actID=='') {
 		Flight::redirect('/admin/getacts');
 	}else {
 		$pros = $m->getPros($actID);

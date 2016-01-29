@@ -18,13 +18,16 @@ function editAct()
 {
 	$m = new Model();
 	$query = Flight::request()->query;
-	$actID = $query['actID'];
-	if (is_null($actID)) {
+	$actID = Model::filter_data($query['actID']);
+	if (!isset($actID) || $actID=='') {
 		Flight::redirect('/admin/getacts');
 	}else {
 		$act = $m->getAct($actID);
 		if (empty($act)) {
-			echo "nope!";
+			echo "<script>
+			alert('please check the activity !');
+			window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
+			</script>";
 		}else {
 			Flight::render('Acts-edit.php',['act' => $act]);
 		}
@@ -36,8 +39,8 @@ function deleteAct()
 {
 	$m = new Model();
 	$query = Flight::request()->query;
-	$actID = $query['actID'];
-	if (is_null($actID)) {
+	$actID = Model::filter_data($query['actID']);
+	if (!isset($actID) || $actID=='') {
 		Flight::redirect('/admin/getacts');
 	}else {
 		$m->deleteAct($actID);
@@ -58,19 +61,22 @@ function updateAct()
 	$post = Flight::request()->data;
 	$field = $m->act();
 	foreach ($field as $key => $value) {
-		if (is_null($post[$value])) {
+		if (!isset($post[$value])) {
 			$data[$value] = '';
 		}else {
-			$data[$value] = $post[$value];
+			$data[$value] = Model::filter_data($post[$value]);
 		}
 	}
 	unset($data['createtime']);
-	$m->updateAct($post['actID'],$data);
-	// echo "<script>
-	// alert('success');
-	// window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
-	// </script>";
-	Flight::redirect('/admin/getacts');
+	if ($data['title']=='' || $data['status']=='' || $data['deadline']=='') {
+		echo "<script>
+		alert('input cannot be empty !');
+		window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
+		</script>";
+	}else {
+		$m->updateAct($post['actID'],$data);
+		Flight::redirect('/admin/getacts');
+	}
 }
 
 /** 创建一个活动 */
@@ -80,26 +86,23 @@ function createAct()
 	$post = Flight::request()->data;
 	$field = $m->act();
 	foreach ($field as $key => $value) {
-		if (is_null($post[$value])) {
+		if (!isset($post[$value])) {
 			$data[$value] = '';
 		}else {
-			$data[$value] = $post[$value];
+			$data[$value] = Model::filter_data($post[$value]);
 		}
 	}
 	$data['createtime'] = date('Y-m-d');
-	if ($data['title']=='' || $data['status']=='') {
-		echo "nope!!!";
+	if ($data['title']=='' || $data['status']=='' || $data['deadline']=='') {
+		echo "<script>
+		alert('input cannot be empty !');
+		window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
+		</script>";
 	}else {
 		$m->createAct($data);
-		// echo "<script>
-		// alert('success');
-		// window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
-		// </script>";
 		Flight::redirect('/admin/getacts');
 	}
 	
 }
-
-
 
 ?>
