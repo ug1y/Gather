@@ -25,14 +25,17 @@ if (!empty($ents)) {
 
 
 $nav = '
+<div class="col-xs-12">
 <ol class="breadcrumb">
 <li><a href="'.dirname($_SERVER['PHP_SELF']).'/admin/getacts">Activities</a></li>
 <li class="active">result</li>
 </ol>
+</div>
 ';
 
 $detail = '
 '.$nav.'
+<div class="col-xs-12">
 <table class="table table-hover">
 <thead><tr>
 <th>#</th>
@@ -41,6 +44,7 @@ $detail = '
 </tr></thead>
 <tbody>'.$tbody.'</tbody>
 </table>
+</div>
 ';
 
 require 'Layout-admin.php';

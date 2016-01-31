@@ -1,7 +1,12 @@
 <?php
+/*
+* 路由映射，按照映射顺序有路由过滤
+*/
 
-require 'action/welcome.php';
-Flight::route('/','hello');
+require 'action/home.php';
+Flight::route('/*','setup');
+Flight::route('/','home');
+Flight::route('/home','home');
 Flight::route('/about','about');
 
 //用户登录退出

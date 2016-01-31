@@ -32,7 +32,7 @@
         	<!-- Collect the nav links, forms, and other content for toggling -->
         	<div class="collapse navbar-collapse" id="navbar-collapse-1">
         		<ul class="nav navbar-nav navbar-right">
-        			<li class=<?php echo isset($wel)?$wel:''; ?> ><a href=<?php echo dirname($_SERVER['PHP_SELF']).'/'?>>Welcome</a></li>
+        			<li class=<?php echo isset($wel)?$wel:''; ?> ><a href=<?php echo dirname($_SERVER['PHP_SELF']).'/home'?>>Welcome</a></li>
         			<li class=<?php echo isset($for)?$for:''; ?> ><a href=<?php echo dirname($_SERVER['PHP_SELF']).'/users/getlist'?>>Form</a></li>
         			<li class=<?php echo isset($abo)?$abo:''; ?> ><a href=<?php echo dirname($_SERVER['PHP_SELF']).'/about'?>>About</a></li>
         		</ul>
