@@ -9,13 +9,13 @@ function getPros()
 {
 	$m = new Model();
 	$query = Flight::request()->query;
-	$actID = $query['actID'];
-	if (is_null($actID)){
+	$actID = Model::filter_data($query['actID']);
+	if (!isset($actID) || $actID==''){
 		Flight::redirect('/admin/getacts');
 	}else {
-		$data = $m->getPros($actID);
+		$pros = $m->getPros($actID);
 		$field = $m->pro();
-		Flight::render('Pros-get.php',['data' => $data,'field' => $field,'actID' => $actID]);
+		Flight::render('Pros-get.php',['pros' => $pros,'field' => $field,'actID' => $actID]);
 	}
 }
 
@@ -24,15 +24,15 @@ function editPro()
 {
 	$m = new Model();
 	$query = Flight::request()->query;
-	$proID = $query['proID'];
-	if (is_null($proID)) {
+	$proID = Model::filter_data($query['proID']);
+	if (!isset($proID) || $proID=='') {
 		Flight::redirect('/admin/getacts');
 	}else {
-		$data = $m->getPro($proID);
-		if (empty($data)) {
+		$pro = $m->getPro($proID);
+		if (empty($pro)) {
 			echo "nope!";
 		}else {
-			Flight::render('Pros-edit.php',['data' => $data]);
+			Flight::render('Pros-edit.php',['pro' => $pro]);
 		}
 	}
 }
@@ -42,8 +42,8 @@ function deletePro()
 {
 	$m = new Model();
 	$query = Flight::request()->query;
-	$proID = $query['proID'];
-	if (is_null($proID)) {
+	$proID = Model::filter_data($query['proID']);
+	if (!isset($proID) || $proID=='') {
 		Flight::redirect('/admin/getacts');
 	}else {
 		$pro = $m->getPro($proID);
@@ -60,8 +60,8 @@ function deletePro()
 function addPro()
 {
 	$query = Flight::request()->query;
-	$actID = $query['actID'];
-	if (is_null($actID)) {
+	$actID = Model::filter_data($query['actID']);
+	if (!isset($actID) || $actID=='') {
 		Flight::redirect('/admin/getacts');
 	}else {
 		Flight::render('Pros-add.php',['actID' => $actID]);
@@ -76,18 +76,18 @@ function updatePro()
 	$post = Flight::request()->data;
 	$field = $m->pro();
 	foreach ($field as $key => $value) {
-		if (is_null($post[$value])) {
+		if (!isset($post[$value])) {
 			$data[$value] = '';
 		}else {
-			$data[$value] = $post[$value];
+			$data[$value] = Model::filter_data($post[$value]);
 		}
 	}
 	$m->updatePro($post['proID'],$data);
-	echo "<script>
-	alert('success');
-	window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getpros?actID=".$post['actID']."';
-	</script>";
-	//Flight::redirect('/admin/editact?actID='.$post['actID']);
+	// echo "<script>
+	// alert('success');
+	// window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getpros?actID=".$post['actID']."';
+	// </script>";
+	Flight::redirect('/admin/getpros?actID='.$post['actID']);
 }
 
 /** 添加一个输入项 */
@@ -97,22 +97,26 @@ function createPro()
 	$post = Flight::request()->data;
 	$field = $m->pro();
 	foreach ($field as $key => $value) {
-		if (is_null($post[$value])) {
+		if (!isset($post[$value])) {
 			$data[$value] = '';
 		}else {
-			$data[$value] = $post[$value];
+			$data[$value] = Model::filter_data($post[$value]);
 		}
 	}
-	if ($data['name']=='' || $data['label']=='') {
-		echo "nope!!!";
-	}else {
-		$m->createPro($data);
-		echo "<script>
-		alert('success');
-		window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getpros?actID=".$data['actID']."';
-		</script>";
+	if ($data['actID']=='') {
+			echo "<script>
+			alert('activity not be selected !');
+			window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
+			</script>";
+		}elseif ($data['name']=='' || $data['label']=='' || $data['type']=='' || $data['isneed']=='') {
+			echo "<script>
+			alert('input cannot be empty !');
+			window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getpros?actID=".$data['actID']."';
+			</script>";
+		}else {
+			$m->createPro($data);
+			Flight::redirect('/admin/getpros?actID='.$data['actID']);
 	}
-	//Flight::redirect('/admin/getacts');
 }
 
 ?>

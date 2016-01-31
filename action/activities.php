@@ -8,9 +8,9 @@
 function getActs()
 {
 	$m = new Model();
-	$data = $m->getActs();
+	$acts = $m->getActs();
 	$field = $m->act();
-	Flight::render('Acts-get.php',['data' => $data,'field' => $field]);
+	Flight::render('Acts-get.php',['acts' => $acts,'field' => $field]);
 }
 
 /** 编辑一个活动 */
@@ -18,15 +18,18 @@ function editAct()
 {
 	$m = new Model();
 	$query = Flight::request()->query;
-	$actID = $query['actID'];
-	if (is_null($actID)) {
+	$actID = Model::filter_data($query['actID']);
+	if (!isset($actID) || $actID=='') {
 		Flight::redirect('/admin/getacts');
 	}else {
-		$data = $m->getAct($actID);
-		if (empty($data)) {
-			echo "nope!";
+		$act = $m->getAct($actID);
+		if (empty($act)) {
+			echo "<script>
+			alert('please check the activity !');
+			window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
+			</script>";
 		}else {
-			Flight::render('Acts-edit.php',['data' => $data]);
+			Flight::render('Acts-edit.php',['act' => $act]);
 		}
 	}
 }
@@ -36,8 +39,8 @@ function deleteAct()
 {
 	$m = new Model();
 	$query = Flight::request()->query;
-	$actID = $query['actID'];
-	if (is_null($actID)) {
+	$actID = Model::filter_data($query['actID']);
+	if (!isset($actID) || $actID=='') {
 		Flight::redirect('/admin/getacts');
 	}else {
 		$m->deleteAct($actID);
@@ -58,19 +61,22 @@ function updateAct()
 	$post = Flight::request()->data;
 	$field = $m->act();
 	foreach ($field as $key => $value) {
-		if (is_null($post[$value])) {
+		if (!isset($post[$value])) {
 			$data[$value] = '';
 		}else {
-			$data[$value] = $post[$value];
+			$data[$value] = Model::filter_data($post[$value]);
 		}
 	}
 	unset($data['createtime']);
-	$m->updateAct($post['actID'],$data);
-	echo "<script>
-	alert('success');
-	window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
-	</script>";
-	//Flight::redirect('/admin/editact?actID='.$post['actID']);
+	if ($data['title']=='' || $data['status']=='' || $data['deadline']=='') {
+		echo "<script>
+		alert('input cannot be empty !');
+		window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
+		</script>";
+	}else {
+		$m->updateAct($post['actID'],$data);
+		Flight::redirect('/admin/getacts');
+	}
 }
 
 /** 创建一个活动 */
@@ -80,25 +86,23 @@ function createAct()
 	$post = Flight::request()->data;
 	$field = $m->act();
 	foreach ($field as $key => $value) {
-		if (is_null($post[$value])) {
+		if (!isset($post[$value])) {
 			$data[$value] = '';
 		}else {
-			$data[$value] = $post[$value];
+			$data[$value] = Model::filter_data($post[$value]);
 		}
 	}
 	$data['createtime'] = date('Y-m-d');
-	if ($data['title']=='' || $data['status']=='') {
-		echo "nope!!!";
-	}else {
-		$m->createAct($data);
+	if ($data['title']=='' || $data['status']=='' || $data['deadline']=='') {
 		echo "<script>
-		alert('success');
+		alert('input cannot be empty !');
 		window.location.href='".dirname($_SERVER['PHP_SELF'])."/admin/getacts';
 		</script>";
+	}else {
+		$m->createAct($data);
+		Flight::redirect('/admin/getacts');
 	}
-	//Flight::redirect('/admin/getacts');
+	
 }
-
-
 
 ?>

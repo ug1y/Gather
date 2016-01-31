@@ -1,9 +1,10 @@
 <?php
-require 'medoo.php';
-// require '../config.php';
 /**
 * 数据库操作类
+* 活动、属性、实体
 */
+require 'medoo.php';
+// require 'config.php';
 class Model
 {
 	private $db;
@@ -18,6 +19,7 @@ class Model
 			'username' => constant('DB_USER'),
 			'password' => constant('DB_PASS'),
 			'charset' => constant('DB_CHARSET'),
+			'port' => constant('DB_PORT'),
 			]);
 	}
 
@@ -31,7 +33,19 @@ class Model
 		return $flag;
 	}
 
-	/** 获取活动表结构 */
+	/** 基本的请求数据过滤处理 */
+	public static function filter_data($data)
+	{
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
+
+	/*
+	* 活动表相关的CRUD
+	*/
+	/** 获取活动表结构，不包含主键ID */
 	public function act()
 	{
 		$tmp = $this->db->query('DESC activity;')->fetchAll();
@@ -80,7 +94,9 @@ class Model
 		return $del_id;
 	}
 
-
+	/*
+	* 属性表相关的CRUD
+	*/
 	/** 获取属性表结构 */
 	public function pro()
 	{
@@ -94,7 +110,7 @@ class Model
 	/** 获取某个活动的表单属性 */
 	public function getPros($actID)
 	{
-		$data = $this->db->select('property','*',['actID' => $actID]);
+		$data = $this->db->select('property','*',['actID' => $actID,'ORDER' => 'order']);
 		return $data;
 	}
 	/** 获取某个属性的信息 */
@@ -126,7 +142,9 @@ class Model
 		return $del_id;
 	}
 
-
+	/*
+	* 实体表相关的CRUD
+	*/
 	/** 获取某个表单的实体内容 */
 	public function getEnts($actID)
 	{
@@ -158,7 +176,6 @@ class Model
 		if (empty($tmp)) {
 			$index = 1;
 		}else {
-			var_dump($tmp);
 			$index = $tmp[0]['index']+1;
 		}
 		foreach ($proID as $key => $value) {
